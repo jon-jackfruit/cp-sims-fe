@@ -1,0 +1,56 @@
+<!-- src/partials/transactions/list.html -->
+<div class="space-y-6" x-data="{
+    transactions: [
+        { id: 'T001', chargePointId: 'CP001', chargePointName: 'Main Station', startTime: '2025-03-16T10:15:00', endTime: '2025-03-16T11:45:00', energy: '18.5 kWh', status: 'Completed' },
+        { id: 'T002', chargePointId: 'CP002', chargePointName: 'Secondary Station', startTime: '2025-03-15T14:20:00', endTime: '2025-03-15T16:10:00', energy: '22.3 kWh', status: 'Completed' },
+        { id: 'T003', chargePointId: 'CP001', chargePointName: 'Main Station', startTime: '2025-03-14T09:00:00', endTime: '2025-03-14T09:45:00', energy: '8.7 kWh', status: 'Completed' },
+        { id: 'T004', chargePointId: 'CP003', chargePointName: 'Garage Station', startTime: '2025-03-13T12:30:00', endTime: '2025-03-13T14:15:00', energy: '16.2 kWh', status: 'Completed' },
+        { id: 'T005', chargePointId: 'CP002', chargePointName: 'Secondary Station', startTime: '2025-03-16T08:45:00', endTime: null, energy: '5.3 kWh', status: 'In Progress' }
+    ]
+}">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h1 class="text-2xl font-medium text-dark-gray">Transactions</h1>
+    </div>
+
+    <div class="bg-white border border-light-gray shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-lighter-gray">
+                        <th class="border-b border-light-gray p-3 text-left font-medium">ID</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Charge Point</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Start Time</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">End Time</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Energy</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Status</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="tx in transactions" :key="tx.id">
+                        <tr class="border-b border-light-gray hover:bg-lighter-gray">
+                            <td class="p-3" x-text="tx.id"></td>
+                            <td class="p-3">
+                                <a :href="`#charge-points/${tx.chargePointId}`" class="text-dark-gray hover:underline" x-text="tx.chargePointName"></a>
+                            </td>
+                            <td class="p-3" x-text="new Date(tx.startTime).toLocaleString()"></td>
+                            <td class="p-3" x-text="tx.endTime ? new Date(tx.endTime).toLocaleString() : '-'"></td>
+                            <td class="p-3" x-text="tx.energy"></td>
+                            <td class="p-3">
+                                <span class="px-2 py-1 text-xs" 
+                                      :class="{
+                                          'bg-green-100 text-green-800': tx.status === 'Completed',
+                                          'bg-blue-100 text-blue-800': tx.status === 'In Progress'
+                                      }"
+                                      x-text="tx.status"></span>
+                            </td>
+                            <td class="p-3">
+                                <a :href="`#transactions/${tx.id}`" class="text-dark-gray hover:underline">View</a>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

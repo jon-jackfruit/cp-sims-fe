@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Charge-Point Simulator</title>
+    
+    <!-- Poppins font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Your existing Tailwind CSS link -->
+    <link href="css/styles.css" rel="stylesheet">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="font-sans bg-lighter-gray text-black min-h-screen flex flex-col">
+    <header class="bg-header-gray text-white py-3 px-6">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="index.html" class="flex items-center gap-2">
+                <!-- Logo icon -->
+                <div class="w-6 h-6 bg-white relative">
+                    <div class="absolute top-[6px] left-[8px] w-[8px] h-[12px] border border-header-gray rounded-sm"></div>
+                    <div class="absolute top-[9px] left-[12px] w-[4px] h-[6px] bg-header-gray"></div>
+                </div>
+                <span class="text-base font-medium">CP-Simulator</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center py-10 px-4">
+        <div class="bg-white p-8 rounded-none shadow w-full max-w-md border border-light-gray" x-data="{ isLogin: true }">
+            <div class="mb-8 text-center">
+                <h1 class="text-2xl md:text-3xl font-medium text-dark-gray mb-4" x-text="isLogin ? 'Log In' : 'Create Account'"></h1>
+                <p class="text-mid-gray font-light">Access your Charge-Point Simulator dashboard</p>
+            </div>
+
+            <div class="mb-6 flex">
+                <button 
+                    @click="isLogin = true" 
+                    class="flex-1 py-2 text-center transition-colors border-b-2"
+                    :class="isLogin ? 'border-black text-black' : 'border-light-gray text-mid-gray'">
+                    Login
+                </button>
+                <button 
+                    @click="isLogin = false" 
+                    class="flex-1 py-2 text-center transition-colors border-b-2"
+                    :class="!isLogin ? 'border-black text-black' : 'border-light-gray text-mid-gray'">
+                    Register
+                </button>
+            </div>
+
+            <form x-show="isLogin" class="space-y-6">
+                <div>
+                    <label for="login-email" class="block text-sm font-medium text-dark-gray mb-1">Email</label>
+                    <input type="email" id="login-email" class="w-full p-3 border border-light-gray focus:outline-none focus:border-mid-gray bg-white text-dark-gray" placeholder="Enter your email" required>
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium text-dark-gray mb-1">Password</label>
+                    <input type="password" id="login-password" class="w-full p-3 border border-light-gray focus:outline-none focus:border-mid-gray bg-white text-dark-gray" placeholder="Enter your password" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-me" class="mr-2 h-4 w-4">
+                        <label for="remember-me" class="text-sm text-mid-gray">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-mid-gray hover:text-dark-gray">Forgot password?</a>
+                </div>
+                <div>
+                    <button type="submit" class="w-full py-3 bg-black text-white font-normal uppercase text-sm tracking-wide transition-colors hover:bg-dark-gray">
+                        Log In
+                    </button>
+                </div>
+            </form>
+
+            <form x-show="!isLogin" class="space-y-6">
+                <div>
+                    <label for="register-name" class="block text-sm font-medium text-dark-gray mb-1">Full Name</label>
+                    <input type="text" id="register-name" class="w-full p-3 border border-light-gray focus:outline-none focus:border-mid-gray bg-white text-dark-gray" placeholder="Enter your full name" required>
+                </div>
+                <div>
+                    <label for="register-email" class="block text-sm font-medium text-dark-gray mb-1">Email</label>
+                    <input type="email" id="register-email" class="w-full p-3 border border-light-gray focus:outline-none focus:border-mid-gray bg-white text-dark-gray" placeholder="Enter your email" required>
+                </div>
+                <div>
+                    <label for="register-password" class="block text-sm font-medium text-dark-gray mb-1">Password</label>
+                    <input type="password" id="register-password" class="w-full p-3 border border-light-gray focus:outline-none focus:border-mid-gray bg-white text-dark-gray" placeholder="Create a password" required>
+                </div>
+                <div>
+                    <label for="register-confirm-password" class="block text-sm font-medium text-dark-gray mb-1">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" class="w-full p-3 border border-light-gray focus:outline-none focus:border-mid-gray bg-white text-dark-gray" placeholder="Confirm your password" required>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" class="mr-2 h-4 w-4" required>
+                    <label for="terms" class="text-sm text-mid-gray">I agree to the <a href="#" class="text-dark-gray hover:underline">Terms of Service</a> and <a href="#" class="text-dark-gray hover:underline">Privacy Policy</a></label>
+                </div>
+                <div>
+                    <button type="submit" class="w-full py-3 bg-black text-white font-normal uppercase text-sm tracking-wide transition-colors hover:bg-dark-gray">
+                        Create Account
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center text-sm text-mid-gray">
+                <p x-show="isLogin">
+                    Don't have an account? <a @click="isLogin = false" href="#" class="text-dark-gray hover:underline">Create one</a>
+                </p>
+                <p x-show="!isLogin">
+                    Already have an account? <a @click="isLogin = true" href="#" class="text-dark-gray hover:underline">Log in</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-header-gray text-white py-6">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4 gap-4 md:gap-0">
+            <div class="flex gap-8">
+                <a href="#" class="text-light-gray text-sm">Privacy</a>
+                <a href="#" class="text-light-gray text-sm">Terms</a>
+                <a href="#" class="text-light-gray text-sm">Contact</a>
+            </div>
+            <div class="text-light-gray text-sm">
+                Charge-Point Simulator &copy; 2025
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

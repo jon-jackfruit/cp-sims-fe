@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dashboard</title>
+    
+    <!-- Tailwind CSS -->
+    <link href="css/styles.css" rel="stylesheet">
+    
+    <!-- Alpine.js with better debugging -->
+    <script>
+        console.log('Before Alpine.js import');
+        window.addEventListener('alpine:init', () => {
+            console.log('Alpine:init event fired');
+        });
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+</head>
+<body class="p-8">
+    <h1 class="text-2xl mb-4">Framework Testing</h1>
+
+    <!-- Alpine.js Test -->
+    <div x-data="{ count: 0 }" class="mb-8 p-4 border">
+        <h2 class="text-xl mb-2">Alpine.js Test</h2>
+        <p>Current count: <span x-text="count"></span></p>
+        <button @click="count++" class="px-4 py-2 bg-blue-500 text-white mt-2">Increment</button>
+        <div>
+            <p>Alpine.js version: <span id="alpine-version">Not loaded</span></p>
+        </div>
+    </div>
+
+    <!-- HTMX Test -->
+    <div class="mb-8 p-4 border">
+        <h2 class="text-xl mb-2">HTMX Test</h2>
+        <div id="htmx-result" class="mt-2 p-4 bg-gray-100">
+            Click the button to load content via HTMX
+        </div>
+        <button 
+            hx-get="https://httpbin.org/html"
+            hx-target="#htmx-result" 
+            class="px-4 py-2 bg-green-500 text-white mt-2">
+            Load External Content
+        </button>
+    </div>
+
+    <script>
+        console.log('End of body script');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded');
+            
+            // Check if Alpine.js is loaded
+            setTimeout(() => {
+                if (window.Alpine) {
+                    console.log('Alpine.js is loaded!', window.Alpine.version);
+                    document.getElementById('alpine-version').textContent = window.Alpine.version;
+                } else {
+                    console.error('Alpine.js is NOT loaded after timeout');
+                    document.getElementById('alpine-version').textContent = "Failed to load";
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

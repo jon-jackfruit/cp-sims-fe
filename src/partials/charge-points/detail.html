@@ -1,0 +1,171 @@
+<!-- src/partials/charge-points/detail.html -->
+<div class="space-y-6" x-data="{
+    id: new URLSearchParams(window.location.search).get('id') || window.location.hash.split('/')[1],
+    chargePoint: null,
+    transactions: [],
+    statusHistory: [],
+    
+    init() {
+        // Simulate fetching data from API
+        setTimeout(() => {
+            this.chargePoint = {
+                id: this.id,
+                name: this.id === 'CP001' ? 'Main Station' : (this.id === 'CP002' ? 'Secondary Station' : 'Garage Station'),
+                model: 'OCPP 1.6J',
+                status: this.id === 'CP003' ? 'Faulted' : (this.id === 'CP002' ? 'Charging' : 'Available'),
+                lastConnection: '2025-03-16T14:30:00',
+                firmwareVersion: '1.2.5',
+                location: 'Main Building, Level 1',
+                maxPower: '22kW'
+            };
+            
+            this.transactions = [
+                { id: 'T001', startTime: '2025-03-16T10:15:00', endTime: '2025-03-16T11:45:00', energy: '18.5 kWh', status: 'Completed' },
+                { id: 'T002', startTime: '2025-03-15T14:20:00', endTime: '2025-03-15T16:10:00', energy: '22.3 kWh', status: 'Completed' },
+                { id: 'T003', startTime: '2025-03-14T09:00:00', endTime: '2025-03-14T09:45:00', energy: '8.7 kWh', status: 'Completed' }
+            ];
+            
+            this.statusHistory = [
+                { timestamp: '2025-03-16T14:30:00', status: this.chargePoint.status },
+                { timestamp: '2025-03-16T08:15:00', status: 'Available' },
+                { timestamp: '2025-03-15T18:20:00', status: 'Charging' },
+                { timestamp: '2025-03-15T16:10:00', status: 'Available' }
+            ];
+        }, 300);
+    }
+}">
+    <!-- Loading state -->
+    <div x-show="!chargePoint" class="flex justify-center items-center py-12">
+        <div class="animate-pulse text-mid-gray">Loading charge point details...</div>
+    </div>
+    
+    <!-- Content when loaded -->
+    <div x-show="chargePoint">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+            <div>
+                <div class="flex items-center gap-2">
+                    <a href="#charge-points" class="text-mid-gray hover:text-dark-gray">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                    <h1 class="text-2xl font-medium text-dark-gray" x-text="chargePoint.name"></h1>
+                </div>
+                <p class="text-mid-gray" x-text="`ID: ${chargePoint.id}`"></p>
+            </div>
+            
+            <div class="flex gap-3">
+                <button class="px-4 py-2 bg-black text-white transition-colors hover:bg-dark-gray"
+                        @click="alert('This would trigger a remote reset')">
+                    Reset
+                </button>
+                <button class="px-4 py-2 border border-dark-gray text-dark-gray transition-colors hover:bg-lighter-gray"
+                        hx-get="partials/charge-points/edit.html"
+                        hx-target="#content-area"
+                        hx-push-url="true"
+                        hx-vals='{"id": chargePoint.id}'>
+                    Edit
+                </button>
+            </div>
+        </div>
+        
+        <!-- Charge point details -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white border border-light-gray p-6">
+                <h2 class="text-lg font-medium mb-4">Details</h2>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="text-mid-gray">Model:</span>
+                        <span x-text="chargePoint.model"></span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="text-mid-gray">Status:</span>
+                        <span>
+                            <span class="px-2 py-1 text-xs" 
+                                :class="{
+                                    'bg-green-100 text-green-800': chargePoint.status === 'Available',
+                                    'bg-blue-100 text-blue-800': chargePoint.status === 'Charging',
+                                    'bg-red-100 text-red-800': chargePoint.status === 'Faulted'
+                                }"
+                                x-text="chargePoint.status"></span>
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="text-mid-gray">Last Connection:</span>
+                        <span x-text="new Date(chargePoint.lastConnection).toLocaleString()"></span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="text-mid-gray">Firmware:</span>
+                        <span x-text="chargePoint.firmwareVersion"></span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="text-mid-gray">Location:</span>
+                        <span x-text="chargePoint.location"></span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <span class="text-mid-gray">Max Power:</span>
+                        <span x-text="chargePoint.maxPower"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white border border-light-gray p-6">
+                <h2 class="text-lg font-medium mb-4">Status History</h2>
+                <div class="space-y-4">
+                    <template x-for="(entry, index) in statusHistory" :key="index">
+                        <div class="flex items-start gap-3">
+                            <div class="w-2 h-2 bg-mid-gray rounded-full mt-2"></div>
+                            <div>
+                                <div x-text="new Date(entry.timestamp).toLocaleString()" class="text-sm text-mid-gray"></div>
+                                <div>
+                                    <span class="px-2 py-1 text-xs" 
+                                        :class="{
+                                            'bg-green-100 text-green-800': entry.status === 'Available',
+                                            'bg-blue-100 text-blue-800': entry.status === 'Charging',
+                                            'bg-red-100 text-red-800': entry.status === 'Faulted'
+                                        }"
+                                        x-text="entry.status"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent transactions -->
+        <div class="bg-white border border-light-gray">
+            <div class="p-4 border-b border-light-gray">
+                <h2 class="text-lg font-medium">Recent Transactions</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-lighter-gray">
+                            <th class="border-b border-light-gray p-3 text-left font-medium">ID</th>
+                            <th class="border-b border-light-gray p-3 text-left font-medium">Start Time</th>
+                            <th class="border-b border-light-gray p-3 text-left font-medium">End Time</th>
+                            <th class="border-b border-light-gray p-3 text-left font-medium">Energy</th>
+                            <th class="border-b border-light-gray p-3 text-left font-medium">Status</th>
+                            <th class="border-b border-light-gray p-3 text-left font-medium">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="tx in transactions" :key="tx.id">
+                            <tr class="border-b border-light-gray hover:bg-lighter-gray">
+                                <td class="p-3" x-text="tx.id"></td>
+                                <td class="p-3" x-text="new Date(tx.startTime).toLocaleString()"></td>
+                                <td class="p-3" x-text="new Date(tx.endTime).toLocaleString()"></td>
+                                <td class="p-3" x-text="tx.energy"></td>
+                                <td class="p-3" x-text="tx.status"></td>
+                                <td class="p-3">
+                                    <a :href="`#transactions/${tx.id}`" class="text-dark-gray hover:underline">View</a>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<!-- src/partials/charge-points/list.html -->
+<div class="space-y-6" x-data="{
+    chargePoints: [
+        { id: 'CP001', name: 'Main Station', model: 'OCPP 1.6J', status: 'Available', transactions: 145 },
+        { id: 'CP002', name: 'Secondary Station', model: 'OCPP 1.6J', status: 'Charging', transactions: 89 },
+        { id: 'CP003', name: 'Garage Station', model: 'OCPP 2.0.1', status: 'Faulted', transactions: 56 }
+    ]
+}">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h1 class="text-2xl font-medium text-dark-gray">Charge Points</h1>
+        <button class="px-4 py-2 bg-black text-white transition-colors hover:bg-dark-gray"
+                hx-get="partials/charge-points/create.html"
+                hx-target="#content-area"
+                hx-push-url="true">
+            Add Charge Point
+        </button>
+    </div>
+
+    <div class="bg-white border border-light-gray shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-lighter-gray">
+                        <th class="border-b border-light-gray p-3 text-left font-medium">ID</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Name</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Model</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Status</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Transactions</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="cp in chargePoints" :key="cp.id">
+                        <tr class="border-b border-light-gray hover:bg-lighter-gray">
+                            <td class="p-3" x-text="cp.id"></td>
+                            <td class="p-3" x-text="cp.name"></td>
+                            <td class="p-3" x-text="cp.model"></td>
+                            <td class="p-3">
+                                <span class="px-2 py-1 text-xs" 
+                                      :class="{
+                                          'bg-green-100 text-green-800': cp.status === 'Available',
+                                          'bg-blue-100 text-blue-800': cp.status === 'Charging',
+                                          'bg-red-100 text-red-800': cp.status === 'Faulted'
+                                      }"
+                                      x-text="cp.status"></span>
+                            </td>
+                            <td class="p-3" x-text="cp.transactions"></td>
+                            <td class="p-3">
+                                <a :href="`#charge-points/${cp.id}`" class="text-dark-gray hover:underline">View</a>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

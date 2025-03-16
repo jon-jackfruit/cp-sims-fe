@@ -4,9 +4,9 @@
   "description": "A web-app for charge-point simulators",
   "scripts": {
     "dev-css": "npx tailwindcss -i ./src/css/styles.css -o ./dist/css/styles.css --watch",
-    "dev-copy": "mkdirp dist/js dist/css && ncp src/js dist/js && ncp src/index.html dist/index.html",
-    "dev": "npm run dev-copy && start npm run dev-css && npx serve dist",
-    "build": "mkdirp dist/js dist/css && ncp src/js dist/js && ncp src/index.html dist/index.html && cross-env NODE_ENV=production npx tailwindcss -i ./src/css/styles.css -o ./dist/css/styles.css --minify"
+    "dev-copy": "mkdirp dist/js dist/css dist/partials/charge-points dist/partials/transactions dist/partials/connections dist/partials/templates && cpy \"src/*.html\" dist/ && cpy \"src/js/*.js\" dist/js/ && cpy \"src/css/*.css\" dist/css/ && cpy \"src/partials/**/*\" dist/partials/",
+    "build": "mkdirp dist/js dist/css dist/partials/charge-points dist/partials/transactions dist/partials/connections dist/partials/templates && cpy \"src/*.html\" dist/ && cpy \"src/js/*.js\" dist/js/ && cpy \"src/css/*.css\" dist/css/ && cpy \"src/partials/**/*\" dist/partials/ && cross-env NODE_ENV=production npx tailwindcss -i ./src/css/styles.css -o ./dist/css/styles.css --minify",
+    "dev": "npm run dev-copy && start npm run dev-css && npx serve dist"
   },
   "keywords": [
     "charge-point",
@@ -17,6 +17,7 @@
   ],
   "devDependencies": {
     "autoprefixer": "^10.4.16",
+    "cpy-cli": "^5.0.0",
     "cross-env": "^7.0.3",
     "mkdirp": "^1.0.4",
     "ncp": "^2.0.0",

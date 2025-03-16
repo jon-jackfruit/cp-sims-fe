@@ -5,119 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charge-Point Simulator</title>
     
-    <!-- Tailwind CSS CDN for immediate development -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Poppins font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Your existing Tailwind CSS link -->
+    <link href="css/styles.css" rel="stylesheet">
     
     <!-- Alpine.js -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.3/cdn.min.js"></script>
-    
-    <!-- HTMX -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.5/htmx.min.js"></script>
-    
-    <!-- App JS -->
-    <script src="./js/app.js" defer></script>
-
-    <style>
-        /* Custom colors since we're using the CDN */
-        .bg-charge-dark { background-color: #2c3e50; }
-        .hover\:text-charge-secondary:hover { color: #2ecc71; }
-        .bg-charge-primary { background-color: #3498db; }
-        .hover\:bg-blue-600:hover { background-color: #2980b9; }
-        .bg-charge-secondary { background-color: #2ecc71; }
-        .hover\:bg-green-600:hover { background-color: #27ae60; }
-        .text-charge-primary { color: #3498db; }
-        .hover\:text-blue-700:hover { color: #2980b9; }
-    </style>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <header class="bg-charge-dark text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Charge-Point Simulator</h1>
-            <nav>
-                <ul class="flex space-x-4">
-                    <li><a href="#" class="hover:text-charge-secondary">Dashboard</a></li>
-                    <li><a href="#" class="hover:text-charge-secondary">Simulators</a></li>
-                    <li><a href="#" class="hover:text-charge-secondary">Settings</a></li>
-                </ul>
-            </nav>
+<body class="font-sans bg-white text-black min-h-screen flex flex-col">
+    <header class="bg-header-gray text-white py-3 px-6">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center gap-2">
+                <!-- Logo icon -->
+                <div class="w-6 h-6 bg-white relative">
+                    <div class="absolute top-[6px] left-[8px] w-[8px] h-[12px] border border-header-gray rounded-sm"></div>
+                    <div class="absolute top-[9px] left-[12px] w-[4px] h-[6px] bg-header-gray"></div>
+                </div>
+                <span class="text-base font-medium">CP-Simulator</span>
+            </div>
+            <a href="login.html" class="inline-block px-5 py-2 bg-transparent text-white border border-white uppercase text-sm tracking-wide transition-colors duration-300 hover:bg-white hover:text-header-gray">Login</a>
         </div>
     </header>
 
-    <main class="container mx-auto p-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Simulator Card -->
-            <div class="card bg-white rounded-lg shadow-md p-6" x-data="{ status: 'Available', transactions: 0 }">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">Simulator #1</h2>
-                    <span 
-                        x-text="status" 
-                        :class="status === 'Available' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
-                        class="px-2 py-1 rounded text-sm">
-                    </span>
+    <main>
+        <section class="py-16 md:py-20 bg-lighter-gray border-b border-light-gray">
+            <div class="container mx-auto px-4">
+                <div class="max-w-[600px]">
+                    <h1 class="text-3xl md:text-4xl font-medium text-dark-gray tracking-tight leading-tight mb-6">EV Charging Station Simulator</h1>
+                    <p class="text-lg text-dark-gray font-light mb-6">A powerful, minimalist tool for testing and development of OCPP-compatible charging solutions.</p>
+                    <div>
+                        <a href="login.html" class="inline-block px-7 py-3 bg-black text-white font-normal uppercase text-sm tracking-wide transition-colors duration-300 mr-4 hover:bg-dark-gray">Get Started</a>
+                        <a href="#" class="inline-block px-7 py-3 bg-transparent border border-dark-gray text-dark-gray font-normal uppercase text-sm tracking-wide transition-colors duration-300 hover:bg-lighter-gray">Documentation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container mx-auto py-12 px-4">
+            <h2 class="relative inline-block text-2xl font-medium text-dark-gray tracking-tight mb-10 after:content-[''] after:absolute after:w-[60px] after:h-[1px] after:bg-mid-gray after:bottom-[-10px] after:left-0">Key Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="p-6 md:p-8 border border-light-gray bg-white transition-transform duration-300 hover:-translate-y-1">
+                    <div class="w-[60px] h-[60px] mb-6 flex justify-center items-center text-3xl border border-mid-gray bg-white relative">
+                        <span>▶</span>
+                        <div class="absolute top-1 left-1 right-[-4px] bottom-[-4px] border border-light-gray -z-10"></div>
+                    </div>
+                    <h3 class="text-xl font-medium text-dark-gray mb-3">OCPP 1.6J Support</h3>
+                    <p class="text-mid-gray font-light leading-relaxed mb-6">Full compatibility with the Open Charge Point Protocol standard version 1.6J for seamless integration.</p>
+                    <code class="font-mono text-sm bg-lighter-gray p-2 border-l-3 border-mid-gray inline-block mt-2">ocpp.startTransaction()</code>
                 </div>
                 
-                <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="text-sm text-gray-600">
-                            <p>Model:</p>
-                            <p class="font-medium">OCPP 1.6J</p>
-                        </div>
-                        <div class="text-sm text-gray-600">
-                            <p>Transactions:</p>
-                            <p class="font-medium" x-text="transactions"></p>
-                        </div>
+                <div class="p-6 md:p-8 border border-light-gray bg-white transition-transform duration-300 hover:-translate-y-1">
+                    <div class="w-[60px] h-[60px] mb-6 flex justify-center items-center text-3xl border border-mid-gray bg-white relative">
+                        <span>↻</span>
+                        <div class="absolute top-1 left-1 right-[-4px] bottom-[-4px] border border-light-gray -z-10"></div>
                     </div>
-                    
-                    <div class="flex space-x-2">
-                        <button 
-                            @click="status = status === 'Available' ? 'Charging' : 'Available'" 
-                            class="btn-primary bg-charge-primary text-white px-4 py-2 rounded font-medium transition-colors hover:bg-blue-600 flex-1">
-                            Toggle Status
-                        </button>
-                        <button 
-                            @click="transactions++" 
-                            class="btn-success bg-charge-secondary text-white px-4 py-2 rounded font-medium transition-colors hover:bg-green-600 flex-1">
-                            Add Transaction
-                        </button>
+                    <h3 class="text-xl font-medium text-dark-gray mb-3">Transaction Simulation</h3>
+                    <p class="text-mid-gray font-light leading-relaxed mb-6">Simulate start/stop charging sequences and monitor transaction data in real-time.</p>
+                </div>
+                
+                <div class="p-6 md:p-8 border border-light-gray bg-white transition-transform duration-300 hover:-translate-y-1">
+                    <div class="w-[60px] h-[60px] mb-6 flex justify-center items-center text-3xl border border-mid-gray bg-white relative">
+                        <span>⚙</span>
+                        <div class="absolute top-1 left-1 right-[-4px] bottom-[-4px] border border-light-gray -z-10"></div>
                     </div>
-                    
-                    <div class="text-sm mt-2">
-                        <h3 class="font-semibold mb-1">OCPP Commands:</h3>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button 
-                                class="bg-gray-200 hover:bg-gray-300 py-1 px-2 rounded"
-                                hx-get="#"
-                                hx-swap="none"
-                                hx-trigger="click">
-                                Start Transaction
-                            </button>
-                            <button 
-                                class="bg-gray-200 hover:bg-gray-300 py-1 px-2 rounded"
-                                hx-get="#"
-                                hx-swap="none"
-                                hx-trigger="click">
-                                Stop Transaction
-                            </button>
-                        </div>
+                    <h3 class="text-xl font-medium text-dark-gray mb-3">Customizable Settings</h3>
+                    <p class="text-mid-gray font-light leading-relaxed mb-6">Configure multiple virtual charge points with different behaviors and characteristics.</p>
+                </div>
+                
+                <div class="p-6 md:p-8 border border-light-gray bg-white transition-transform duration-300 hover:-translate-y-1">
+                    <div class="w-[60px] h-[60px] mb-6 flex justify-center items-center text-3xl border border-mid-gray bg-white relative">
+                        <span>✓</span>
+                        <div class="absolute top-1 left-1 right-[-4px] bottom-[-4px] border border-light-gray -z-10"></div>
                     </div>
+                    <h3 class="text-xl font-medium text-dark-gray mb-3">Automated End-to-end Testing</h3>
+                    <p class="text-mid-gray font-light leading-relaxed mb-6">Connect your OCPI transactions to automate comprehensive end-to-end testing of charging infrastructure.</p>
+                    <code class="font-mono text-sm bg-lighter-gray p-2 border-l-3 border-mid-gray inline-block mt-2">test.automateSequence()</code>
                 </div>
             </div>
-            
-            <!-- Add Simulator Card -->
-            <div class="card bg-white rounded-lg shadow-md p-6 flex items-center justify-center p-8 border-2 border-dashed border-gray-300">
-                <button class="text-charge-primary hover:text-blue-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                    </svg>
-                    <span class="block mt-2">Add Simulator</span>
-                </button>
+        </section>
+
+        <section class="bg-lighter-gray py-12 md:py-16 text-center border-t border-b border-light-gray mt-12 md:mt-16">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl md:text-3xl font-medium text-dark-gray mb-6">Ready to Start Testing?</h2>
+                <p class="max-w-[600px] mx-auto text-mid-gray font-light mb-6">Set up your first simulator in minutes and begin developing your charging infrastructure.</p>
+                <a href="login.html" class="inline-block px-7 py-3 bg-black text-white font-normal uppercase text-sm tracking-wide transition-colors duration-300 hover:bg-dark-gray">Create Account</a>
             </div>
-        </div>
+        </section>
     </main>
 
-    <footer class="bg-charge-dark text-white p-4 mt-8">
-        <div class="container mx-auto text-center">
-            <p>Charge-Point Simulator &copy; 2025</p>
+    <footer class="bg-header-gray text-white py-8">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4 gap-4 md:gap-0">
+            <div class="flex gap-8">
+                <a href="#" class="text-light-gray text-sm">Privacy</a>
+                <a href="#" class="text-light-gray text-sm">Terms</a>
+                <a href="#" class="text-light-gray text-sm">Contact</a>
+            </div>
+            <div class="text-light-gray text-sm">
+                Charge-Point Simulator &copy; 2025
+            </div>
         </div>
     </footer>
 </body>
