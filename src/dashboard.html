@@ -19,7 +19,23 @@
     <script src="https://unpkg.com/htmx.org@1.9.5"></script>
     
     <!-- App JS -->
-    <script src="js/dashboard.js" defer></script>
+    <script src="js/dashboard.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the main div with Alpine.js after dashboard.js is loaded
+            const mainContainer = document.getElementById('dashboard-container');
+            if (mainContainer) {
+                mainContainer.setAttribute('x-data', 'dashboard()');
+                mainContainer.setAttribute('x-init', 'init()');
+                
+                // Need to tell Alpine to process this element
+                if (window.Alpine) {
+                    window.Alpine.initTree(mainContainer);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
     <div x-data="dashboard()" x-init="init()" class="dashboard-layout">
