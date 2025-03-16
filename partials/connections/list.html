@@ -1,0 +1,56 @@
+<!-- src/partials/connections/list.html -->
+<div class="space-y-6" x-data="{
+    connections: [
+        { id: 'CONN001', name: 'Primary Backend', url: 'wss://chargepoint-backend.example.com', status: 'Connected', chargePoints: 2 },
+        { id: 'CONN002', name: 'Test Environment', url: 'wss://test.chargepoint-backend.example.com', status: 'Disconnected', chargePoints: 1 }
+    ]
+}">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <!-- src/partials/connections/list.html (continued) -->
+        <h1 class="text-2xl font-medium text-dark-gray">Connections</h1>
+        <button class="px-4 py-2 bg-black text-white transition-colors hover:bg-dark-gray"
+                hx-get="partials/connections/create.html"
+                hx-target="#content-area"
+                hx-push-url="true">
+            Add Connection
+        </button>
+    </div>
+
+    <div class="bg-white border border-light-gray shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-lighter-gray">
+                        <th class="border-b border-light-gray p-3 text-left font-medium">ID</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Name</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">URL</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Status</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Charge Points</th>
+                        <th class="border-b border-light-gray p-3 text-left font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="conn in connections" :key="conn.id">
+                        <tr class="border-b border-light-gray hover:bg-lighter-gray">
+                            <td class="p-3" x-text="conn.id"></td>
+                            <td class="p-3" x-text="conn.name"></td>
+                            <td class="p-3" x-text="conn.url"></td>
+                            <td class="p-3">
+                                <span class="px-2 py-1 text-xs" 
+                                      :class="{
+                                          'bg-green-100 text-green-800': conn.status === 'Connected',
+                                          'bg-red-100 text-red-800': conn.status === 'Disconnected'
+                                      }"
+                                      x-text="conn.status"></span>
+                            </td>
+                            <td class="p-3" x-text="conn.chargePoints"></td>
+                            <td class="p-3">
+                                <a :href="`#connections/${conn.id}`" class="text-dark-gray hover:underline">View</a>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

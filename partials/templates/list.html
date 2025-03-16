@@ -1,0 +1,48 @@
+<!-- src/partials/templates/list.html -->
+<div class="space-y-6" x-data="{
+    templates: [
+        { id: 'TMPL001', name: 'Basic Charge Point', model: 'OCPP 1.6J', connectors: 2, description: 'Standard charge point configuration with two connectors' },
+        { id: 'TMPL002', name: 'Advanced Station', model: 'OCPP 2.0.1', connectors: 4, description: 'High-capacity charging station with advanced features' },
+        { id: 'TMPL003', name: 'Minimal Setup', model: 'OCPP 1.6J', connectors: 1, description: 'Basic single-connector setup for testing' }
+    ]
+}">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h1 class="text-2xl font-medium text-dark-gray">Templates</h1>
+        <button class="px-4 py-2 bg-black text-white transition-colors hover:bg-dark-gray"
+                hx-get="partials/templates/create.html"
+                hx-target="#content-area"
+                hx-push-url="true">
+            Add Template
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <template x-for="template in templates" :key="template.id">
+            <div class="bg-white border border-light-gray p-6 hover:shadow-sm transition-shadow">
+                <h3 class="text-xl font-medium mb-2" x-text="template.name"></h3>
+                <div class="text-sm text-mid-gray mb-4" x-text="template.id"></div>
+                
+                <div class="space-y-2 mb-6">
+                    <div class="flex justify-between">
+                        <span class="text-mid-gray">Model:</span>
+                        <span x-text="template.model"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-mid-gray">Connectors:</span>
+                        <span x-text="template.connectors"></span>
+                    </div>
+                </div>
+                
+                <p class="text-mid-gray mb-4" x-text="template.description"></p>
+                
+                <div class="flex justify-between mt-4">
+                    <a :href="`#templates/${template.id}`" class="text-dark-gray hover:underline">View Details</a>
+                    <button class="text-dark-gray hover:underline"
+                            @click="alert('This would create a new charge point from this template')">
+                        Use Template
+                    </button>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
