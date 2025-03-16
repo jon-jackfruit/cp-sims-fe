@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charge-Point Simulator</title>
+    
+    <!-- Tailwind CSS CDN for immediate development -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.3/cdn.min.js"></script>
+    
+    <!-- HTMX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/htmx/1.9.5/htmx.min.js"></script>
+    
+    <!-- App JS -->
+    <script src="./js/app.js" defer></script>
+
+    <style>
+        /* Custom colors since we're using the CDN */
+        .bg-charge-dark { background-color: #2c3e50; }
+        .hover\:text-charge-secondary:hover { color: #2ecc71; }
+        .bg-charge-primary { background-color: #3498db; }
+        .hover\:bg-blue-600:hover { background-color: #2980b9; }
+        .bg-charge-secondary { background-color: #2ecc71; }
+        .hover\:bg-green-600:hover { background-color: #27ae60; }
+        .text-charge-primary { color: #3498db; }
+        .hover\:text-blue-700:hover { color: #2980b9; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="bg-charge-dark text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Charge-Point Simulator</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="#" class="hover:text-charge-secondary">Dashboard</a></li>
+                    <li><a href="#" class="hover:text-charge-secondary">Simulators</a></li>
+                    <li><a href="#" class="hover:text-charge-secondary">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Simulator Card -->
+            <div class="card bg-white rounded-lg shadow-md p-6" x-data="{ status: 'Available', transactions: 0 }">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">Simulator #1</h2>
+                    <span 
+                        x-text="status" 
+                        :class="status === 'Available' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'"
+                        class="px-2 py-1 rounded text-sm">
+                    </span>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="text-sm text-gray-600">
+                            <p>Model:</p>
+                            <p class="font-medium">OCPP 1.6J</p>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <p>Transactions:</p>
+                            <p class="font-medium" x-text="transactions"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button 
+                            @click="status = status === 'Available' ? 'Charging' : 'Available'" 
+                            class="btn-primary bg-charge-primary text-white px-4 py-2 rounded font-medium transition-colors hover:bg-blue-600 flex-1">
+                            Toggle Status
+                        </button>
+                        <button 
+                            @click="transactions++" 
+                            class="btn-success bg-charge-secondary text-white px-4 py-2 rounded font-medium transition-colors hover:bg-green-600 flex-1">
+                            Add Transaction
+                        </button>
+                    </div>
+                    
+                    <div class="text-sm mt-2">
+                        <h3 class="font-semibold mb-1">OCPP Commands:</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button 
+                                class="bg-gray-200 hover:bg-gray-300 py-1 px-2 rounded"
+                                hx-get="#"
+                                hx-swap="none"
+                                hx-trigger="click">
+                                Start Transaction
+                            </button>
+                            <button 
+                                class="bg-gray-200 hover:bg-gray-300 py-1 px-2 rounded"
+                                hx-get="#"
+                                hx-swap="none"
+                                hx-trigger="click">
+                                Stop Transaction
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Simulator Card -->
+            <div class="card bg-white rounded-lg shadow-md p-6 flex items-center justify-center p-8 border-2 border-dashed border-gray-300">
+                <button class="text-charge-primary hover:text-blue-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    <span class="block mt-2">Add Simulator</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-charge-dark text-white p-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>Charge-Point Simulator &copy; 2025</p>
+        </div>
+    </footer>
+</body>
+</html>

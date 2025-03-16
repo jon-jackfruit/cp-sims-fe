@@ -1,0 +1,29 @@
+{
+  "name": "charge-point-simulator",
+  "version": "1.0.0",
+  "description": "A web-app for charge-point simulators",
+  "scripts": {
+    "dev-css": "npx tailwindcss -i ./src/css/styles.css -o ./dist/css/styles.css --watch",
+    "dev-copy": "mkdirp dist/js dist/css && ncp src/js dist/js && ncp src/index.html dist/index.html",
+    "dev": "npm run dev-copy && start npm run dev-css && npx serve dist",
+    "build": "mkdirp dist/js dist/css && ncp src/js dist/js && ncp src/index.html dist/index.html && cross-env NODE_ENV=production npx tailwindcss -i ./src/css/styles.css -o ./dist/css/styles.css --minify"
+  },
+  "keywords": [
+    "charge-point",
+    "simulator",
+    "tailwindcss",
+    "alpinejs",
+    "htmx"
+  ],
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "cross-env": "^7.0.3",
+    "mkdirp": "^1.0.4",
+    "ncp": "^2.0.0",
+    "nodemon": "^2.0.22",
+    "postcss": "^8.4.31",
+    "rimraf": "^3.0.2",
+    "serve": "^14.2.0",
+    "tailwindcss": "^3.3.5"
+  }
+}
